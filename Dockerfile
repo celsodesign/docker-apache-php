@@ -3,7 +3,6 @@ MAINTAINER Alexander Schenkel <alex@alexi.ch>
 
 VOLUME ["/var/www"]
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get upgrade -y
 
@@ -20,8 +19,6 @@ ADD apache_default /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/apache2/php.ini
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/cli/php.ini
-RUN sed -ri 's/^error_reporting\s*=.*$/error_reporting = E_ALL \& ~E_DEPRECATED \& ~E_NOTICE/g' /etc/php5/apache2/php.ini
-RUN sed -ri 's/^error_reporting\s*=.*$/error_reporting = E_ALL \& ~E_DEPRECATED \& ~E_NOTICE/g' /etc/php5/cli/php.ini
 RUN sed -ri 's/^PermitRootLogin.*$/PermitRootLogin yes/g' /etc/ssh/sshd_config
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
